@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // Import views
+import AdminLogin from '@/views/AdminLogin.vue'
+import AdminDashboard from '@/views/AdminDashboard.vue'
 import Home from '@/views/Home.vue'
 import News from '@/views/News.vue'
 import Sections from '@/views/Sections.vue'
@@ -9,6 +11,16 @@ import Contact from '@/views/Contact.vue'
 import NotFound from '@/views/404.vue'
 
 const routes = [
+  {
+    path: '/admin',
+    name: 'AdminLogin',
+    component: AdminLogin
+  },
+  {
+    path: '/admin/dashboard',
+    name: 'AdminDashboard',
+    component: AdminDashboard
+  },
   {
     path: '/',
     name: 'Home',
