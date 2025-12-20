@@ -330,7 +330,7 @@
 
 <script>
 import { ref, computed, onMounted } from 'vue';
-import axios from 'axios';
+import api from '@/services/api'; // ✅ Toza api
 import aboutimg from "@/assets/library.jpg";
 import Hero from "@/components/Hero.vue";
 import TeachersPreview from "@/components/TeachersPreview.vue";
@@ -366,16 +366,8 @@ export default {
       newsLoading.value = true;
       
       try {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzY1OTgzMDQ5LCJleHAiOjE3NjYwNjk0NDl9.o2p-HAhmNa4zksOBhms1TQ38g2HgwZBt5Pz41FoCm8A";
-        
-        console.log("🔄 Fetching latest news...");
-        const res = await axios.get("http://localhost:5001/api/news", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        
-        console.log("✅ News API Response:", res.data);
+        // ✅ Token yo'q - oddiy GET so'rov
+        const res = await api.get('/api/news');
         
         // Turli javob formatlarini qo'llab-quvvatlash
         let newsData = [];
@@ -395,13 +387,9 @@ export default {
         });
         
         newsList.value = newsData;
-        console.log(`✅ ${newsList.value.length} ta yangilik yuklandi`);
-        console.log(`📰 Eng oxirgi 3 ta:`, latestNews.value);
         
       } catch (err) {
         console.error("❌ News API error:", err);
-        
-        // Demo data (agar API ishlamasa)
         newsList.value = [];
       } finally {
         newsLoading.value = false;

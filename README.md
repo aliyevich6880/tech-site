@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # tech-site
 
 ## Project setup
@@ -17,3 +18,6 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+=======
+# tech-site
+>>>>>>> origin/main

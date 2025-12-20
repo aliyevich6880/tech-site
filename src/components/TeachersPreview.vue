@@ -162,7 +162,7 @@
 
 <script>
 import { ref, computed, onMounted } from 'vue';
-import axios from 'axios';
+import api from '@/services/api'; // ✅ Toza api
 
 export default {
   name: 'TeachersPreview',
@@ -184,8 +184,6 @@ export default {
       })
       .reverse();
       
-      console.log('🔍 Filtered leadership:', leadership);
-      
       // Maksimum 4 ta ko'rsatish (Home sahifasi uchun)
       return leadership.slice(0, 4);
     });
@@ -199,17 +197,8 @@ export default {
       error.value = null;
       
       try {
-        // Token - bu yerga o'zingizning tokeningizni qo'ying
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzY1OTgzMDQ5LCJleHAiOjE3NjYwNjk0NDl9.o2p-HAhmNa4zksOBhms1TQ38g2HgwZBt5Pz41FoCm8A";
-        
-        console.log("🔄 Fetching leadership...");
-        const res = await axios.get("http://localhost:5001/api/teachers", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        
-        console.log("✅ Teachers API Response:", res.data);
+        // ✅ Token yo'q - oddiy GET so'rov
+        const res = await api.get('/api/teachers');
         
         // Turli javob formatlarini qo'llab-quvvatlash
         if (Array.isArray(res.data)) {
@@ -219,18 +208,12 @@ export default {
         } else if (res.data.data && Array.isArray(res.data.data)) {
           teachers.value = res.data.data;
         } else {
-          console.error("❌ Unexpected data format:", res.data);
           teachers.value = [];
         }
-        
-        console.log(`✅ ${teachers.value.length} ta o'qituvchi yuklandi`);
-        console.log(`👔 ${leadershipTeachers.value.length} ta rahbar topildi`);
         
       } catch (err) {
         console.error("❌ Leadership API error:", err);
         error.value = "Ma'lumotlarni yuklashda xatolik";
-        
-        // Demo data (agar API ishlamasa)
         teachers.value = [];
       } finally {
         loading.value = false;
