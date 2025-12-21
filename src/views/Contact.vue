@@ -273,9 +273,9 @@
                   <div>
                     <h4 class="font-bold text-gray-900 mb-1">Email</h4>
                     <a
-                      href="mailto:info@techcollege.uz"
+                      href="mailto:pt2texnikum@gmail.com"
                       class="text-indigo-600 font-semibold hover:underline break-all"
-                      >info@techcollege.uz</a
+                      >pt2texnikum@gmail.com</a
                     >
                     <p class="text-gray-500 text-sm mt-1">24/7 javob beramiz</p>
                   </div>
