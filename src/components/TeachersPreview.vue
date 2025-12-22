@@ -114,7 +114,8 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 md:mt-20">
           <div class="bg-white/60 backdrop-blur-xl rounded-2xl p-6 text-center border border-white/50 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <div class="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-              {{ totalTeachers }}+
+              70
+              +
             </div>
             <div class="text-gray-600 font-medium">O'qituvchilar</div>
           </div>

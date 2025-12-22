@@ -11,30 +11,16 @@ import Contact from '@/views/Contact.vue'
 import NotFound from '@/views/404.vue'
 
 const routes = [
-  // ==================== ADMIN ROUTES ====================
   {
     path: '/admin',
     name: 'AdminLogin',
-    component: AdminLogin,
-    meta: {
-      title: 'Admin Login - Tech College',
-      description: 'Admin panel kirish',
-      isAdmin: true
-    }
+    component: AdminLogin
   },
   {
     path: '/admin/dashboard',
     name: 'AdminDashboard',
-    component: AdminDashboard,
-    meta: {
-      title: 'Admin Dashboard - Tech College',
-      description: 'Admin boshqaruv paneli',
-      requiresAuth: true, // Token kerak
-      isAdmin: true
-    }
+    component: AdminDashboard
   },
-  
-  // ==================== PUBLIC ROUTES ====================
   {
     path: '/',
     name: 'Home',
@@ -80,8 +66,7 @@ const routes = [
       description: 'Biz bilan bog\'laning va savollaringizga javob oling'
     }
   },
-  
-  // ==================== 404 PAGE ====================
+  // 404 Page - Must be last
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
@@ -96,7 +81,6 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  
   // Scroll behavior
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -115,35 +99,18 @@ const router = createRouter({
   }
 })
 
-// ==================== NAVIGATION GUARDS ====================
+// Navigation guards
 router.beforeEach((to, from, next) => {
-  // 1. Update document title
+  // Update document title
   document.title = to.meta.title || 'Tech College'
   
-  // 2. Update meta description
+  // Update meta description
   const metaDescription = document.querySelector('meta[name="description"]')
   if (metaDescription) {
     metaDescription.setAttribute('content', to.meta.description || 'Tech College - Zamonaviy ta\'lim markazi')
   }
 
-  // 3. Check authentication for admin routes
-  const token = localStorage.getItem('adminToken')
-  
-  // Agar dashboard'ga kirmoqchi bo'lsa va token bo'lmasa
-  if (to.meta.requiresAuth && !token) {
-    console.log('🚫 Token yo\'q, login sahifasiga yo\'naltirish...')
-    next('/admin')
-    return
-  }
-  
-  // Agar login sahifasiga kirmoqchi bo'lsa va token bor bo'lsa
-  if (to.path === '/admin' && token) {
-    console.log('✅ Token bor, dashboard\'ga yo\'naltirish...')
-    next('/admin/dashboard')
-    return
-  }
-
-  // 4. Continue navigation
+  // Continue navigation
   next()
 })
 

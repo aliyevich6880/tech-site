@@ -341,6 +341,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '@/services/api';
 
+
 export default {
   name: 'AdminDashboard',
   setup() {
@@ -504,7 +505,7 @@ export default {
     const fetchNews = async () => {
       newsListLoading.value = true;
       try {
-        const token = localStorage.getItem('adminToken');
+        const token = sessionStorage.getItem('adminToken');
         const res = await api.get('/api/news', {
           headers: { Authorization: `Bearer ${token}` }
         });
