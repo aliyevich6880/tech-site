@@ -2,7 +2,7 @@
   <div class="sections-page">
     <!-- Hero Section -->
     <section
-      class="relative w-full h-full md:h-[520px] flex items-center justify-center overflow-hidden"
+      class="relative w-full h-full  flex items-center justify-center overflow-hidden"
     >
       <!-- Background Image -->
       <div
