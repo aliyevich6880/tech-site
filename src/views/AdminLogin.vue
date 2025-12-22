@@ -43,15 +43,14 @@
           <p class="text-green-200 text-sm text-center">✅ Kirish muvaffaqiyatli!</p>
         </div>
 
-        <form @submit.prevent="handleLogin" class="space-y-6">
+        <div class="space-y-6">
           
           <!-- Username -->
           <div>
-            <label class="block text-white/90 font-semibold mb-2">
-              👤 Username
-            </label>
+            <label class="block text-white/90 font-semibold mb-2">👤 Username</label>
             <input 
               v-model="username"
+              @keyup.enter="handleLogin"
               type="text" 
               placeholder="admin"
               required
@@ -61,11 +60,10 @@
 
           <!-- Password -->
           <div>
-            <label class="block text-white/90 font-semibold mb-2">
-              🔒 Password
-            </label>
+            <label class="block text-white/90 font-semibold mb-2">🔒 Password</label>
             <input 
               v-model="password"
+              @keyup.enter="handleLogin"
               type="password" 
               placeholder="••••••••"
               required
@@ -75,7 +73,7 @@
 
           <!-- Submit Button -->
           <button 
-            type="submit"
+            @click="handleLogin"
             :disabled="loading"
             class="w-full px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:from-gray-500 disabled:to-gray-600 text-white rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 active:scale-95 disabled:scale-100 disabled:cursor-not-allowed"
           >
@@ -89,13 +87,11 @@
             <span v-else>🚀 Kirish</span>
           </button>
 
-        </form>
+        </div>
 
         <!-- Info -->
         <div class="mt-6 pt-6 border-t border-white/10">
-          <p class="text-white/60 text-sm text-center">
-            🔐 Xavfsiz kirish tizimi
-          </p>
+          <p class="text-white/60 text-sm text-center">🔐 Xavfsiz kirish tizimi</p>
         </div>
 
       </div>
@@ -131,30 +127,52 @@ export default {
     const success = ref(false);
 
     const handleLogin = async () => {
+      // Validation
+      if (!username.value.trim() || !password.value.trim()) {
+        error.value = 'Username va password kiriting!';
+        return;
+      }
+
       loading.value = true;
       error.value = '';
       success.value = false;
 
       try {
+        console.log('🔄 Login qilish boshlandi...');
+        console.log('👤 Username:', username.value);
+
         const response = await api.post('/api/auth/login', {
-          username: username.value,
-          password: password.value
+          username: username.value.trim(),
+          password: password.value.trim()
         });
 
-        // Tokenni saqlash
-        const token = response.data.token;
-        localStorage.setItem('adminToken', token);
+        console.log('✅ Response:', response.data);
 
-        success.value = true;
+        if (response.data.token) {
+          // Token saqlash
+          localStorage.setItem('adminToken', response.data.token);
+          success.value = true;
+          console.log('✅ Token saqlandi!');
 
-        // 1 soniyadan keyin dashboardga o'tish
-        setTimeout(() => {
-          router.push('/admin/dashboard');
-        }, 1000);
+          // 1 soniyadan keyin dashboardga o'tish
+          setTimeout(() => {
+            router.push('/admin/dashboard');
+          }, 1000);
+        } else {
+          throw new Error('Token qaytmadi');
+        }
 
       } catch (err) {
-        console.error('Login error:', err);
-        error.value = err.response?.data?.message || 'Username yoki password xato!';
+        console.error('❌ Login xatosi:', err);
+        console.error('❌ Response:', err.response?.data);
+        
+        if (err.response?.status === 401) {
+          error.value = 'Username yoki password xato!';
+        } else if (err.code === 'ERR_NETWORK') {
+          error.value = 'Backend bilan bog\'lanib bo\'lmadi!';
+        } else {
+          error.value = err.response?.data?.message || 'Xatolik yuz berdi!';
+        }
       } finally {
         loading.value = false;
       }

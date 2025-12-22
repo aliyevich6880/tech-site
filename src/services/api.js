@@ -1,11 +1,40 @@
 import axios from 'axios';
 
-// Base URL - Render backend
+// Backend URL - Render.com
+const API_URL = 'https://tech-collage-1.onrender.com';
+
 const api = axios.create({
-  baseURL: 'https://tech-collage-1.onrender.com',
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
-// ✅ GET requests uchun token kerak EMAS
-// Interceptor yo'q - oddiy axios instance
+// Request interceptor - har bir so'rovga token qo'shish
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('adminToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response interceptor - xatolarni qayta ishlash
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Token muddati tugagan
+      localStorage.removeItem('adminToken');
+      window.location.href = '/admin';
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;
