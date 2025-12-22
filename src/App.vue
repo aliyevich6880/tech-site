@@ -1,7 +1,7 @@
 <template>
   <div class="app-container" :class="currentSeason">
-    <!-- Navbar -->
-    <Navbar />
+    <!-- Navbar - faqat admin bo'lmagan sahifalarda -->
+    <Navbar v-if="!isAdminRoute" />
 
     <!-- Main Content with Fixed Page Transitions -->
     <router-view v-slot="{ Component }">
@@ -13,13 +13,13 @@
       </transition>
     </router-view>
 
-    <!-- Footer -->
-    <Footer />
+    <!-- Footer - faqat admin bo'lmagan sahifalarda -->
+    <Footer v-if="!isAdminRoute" />
 
-    <!-- Scroll to Top Button -->
+    <!-- Scroll to Top Button - faqat admin bo'lmagan sahifalarda -->
     <transition name="fade">
       <button
-        v-if="showScrollTop"
+        v-if="showScrollTop && !isAdminRoute"
         @click="scrollToTop"
         class="fixed bottom-8 animate-bounce right-8 z-50 w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-indigo-500/50 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center group"
         aria-label="Scroll to top"
@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
 
@@ -68,6 +70,18 @@ export default {
   components: {
     Navbar,
     Footer
+  },
+  setup() {
+    const route = useRoute()
+    
+    // Admin sahifalarni tekshirish
+    const isAdminRoute = computed(() => {
+      return route.path.startsWith('/admin')
+    })
+
+    return {
+      isAdminRoute
+    }
   },
   data() {
     return {
