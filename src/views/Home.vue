@@ -306,7 +306,7 @@
           Bizga qo'shiling!
         </h2>
         <p class="text-xl text-white/90 mb-8 leading-relaxed">
-          Kelajagingizni bugun quring. Tech College bilan professional ta'lim
+          Kelajagingizni bugun quring. Payariq tumani 2-sonli texnikumi bilan professional ta'lim
           oling va muvaffaqiyatli karyera boshlang.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">

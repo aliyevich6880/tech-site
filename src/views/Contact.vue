@@ -288,7 +288,7 @@
               class="bg-white/60 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-white/50"
             >
               <h3 class="text-2xl font-bold mb-6 text-gray-900">
-                Ijtimoiy Tarmoqlar
+                Creator Ijtimoiy Tarmoqlari
               </h3>
 
               <div class="flex flex-wrap gap-4">

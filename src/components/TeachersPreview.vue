@@ -15,7 +15,7 @@
           </span>
         </div>
         <h2 class="text-4xl md:text-5xl lg:text-6xl font-black mb-4 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent leading-[1.2] pb-2">
-          Kollej Rahbariyati
+          Texnikum Rahbariyati
         </h2>
         <p class="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto">
           Professional va tajribali rahbarlarimiz bilan tanishing

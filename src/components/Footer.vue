@@ -41,7 +41,7 @@
           </div>
           <p class="text-gray-400 text-sm leading-relaxed">
             Zamonaviy ta'lim va kuchli mutaxassislar tayyorlashga qaratilgan
-            kollejmiz o'quvchilar uchun eng yaxshi sharoitlarni yaratadi.
+            texnikumimiz o'quvchilar uchun eng yaxshi sharoitlarni yaratadi.
           </p>
 
           <!-- Social Media -->
@@ -150,8 +150,7 @@
                 ></path>
               </svg>
               <span
-                >Payariq tumani,Chelak shaharchasi oq qush restauran
-                kochasi</span
+                >Qumchuq MFY, Furqat ko'cha 4-bino</span
               >
             </li>
             <li

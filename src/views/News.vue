@@ -46,7 +46,7 @@
           Yangiliklar
         </h1>
         <p class="text-lg md:text-xl lg:text-2xl text-white/90 font-light">
-          Kollejimizdagi so'nggi yangiliklar va tadbirlar haqida ma'lumot
+          Texnikumimizdagi so'nggi yangiliklar va tadbirlar haqida ma'lumot
         </p>
       </div>
     </section>
