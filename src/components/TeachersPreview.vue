@@ -17,9 +17,6 @@
         <h2 class="text-4xl md:text-5xl lg:text-6xl font-black mb-4 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent leading-[1.2] pb-2">
           Texnikum Rahbariyati
         </h2>
-        <p class="text-gray-600 text-lg md:text-xl max-w-2xl mx-auto">
-          Professional va tajribali rahbarlarimiz bilan tanishing
-        </p>
       </div>
 
       <!-- Loading State -->
@@ -136,7 +133,7 @@
 
           <div class="bg-white/60 backdrop-blur-xl rounded-2xl p-6 text-center border border-white/50 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <div class="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-              500+
+              1000+
             </div>
             <div class="text-gray-600 font-medium">Talabalar</div>
           </div>
