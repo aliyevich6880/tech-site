@@ -41,7 +41,7 @@
             class="group relative bg-white/60 backdrop-blur-xl rounded-3xl overflow-hidden shadow-xl border border-white/50 transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl hover:shadow-indigo-500/20 cursor-pointer"
           >
             <!-- Image Container -->
-            <div class="relative overflow-hidden">
+            <div class="relative overflow-hidden p-4">
               <img
                 :src="teacher.teacherImg || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300'"
                 :alt="teacher.fullName"
