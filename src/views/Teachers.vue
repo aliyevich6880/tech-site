@@ -138,11 +138,7 @@
                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                  <button class="px-4 py-2 bg-white/90 backdrop-blur-sm text-indigo-600 rounded-xl font-semibold shadow-lg transform scale-0 group-hover:scale-100 transition-transform duration-300 hover:bg-white">
-                    Bog'lanish
-                  </button>
-                </div>
+
               </div>
               <div class="p-5">
                 <h3 class="text-lg font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors line-clamp-1">
