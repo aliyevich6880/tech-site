@@ -112,7 +112,7 @@
         <!-- Content -->
         <template v-else>
           <!-- Rahbariyat Section (Cards) -->
-          <div v-if="displayedLeadership.length > 0" class="mb-16">
+          <div v-if="allLeadership.length > 0" class="mb-20">
             <div class="text-center mb-12">
               <h2
                 class="text-3xl md:text-4xl font-black mb-4 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
@@ -121,16 +121,13 @@
               </h2>
               <p class="text-gray-600 text-lg">
                 {{ allLeadership.length }} ta rahbar
-                <span v-if="leadershipDisplayCount < allLeadership.length" class="text-indigo-600 font-semibold">
-                  ({{ displayedLeadership.length }} ta ko'rsatilmoqda)
-                </span>
               </p>
             </div>
 
             <!-- Cards Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
               <div
-                v-for="(teacher, index) in displayedLeadership"
+                v-for="(teacher, index) in currentLeadershipPage"
                 :key="teacher._id || index"
                 class="group relative bg-white/60 backdrop-blur-xl rounded-3xl overflow-hidden shadow-xl border border-white/50 transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl hover:shadow-indigo-500/20 cursor-pointer"
               >
@@ -153,24 +150,60 @@
               </div>
             </div>
 
-            <!-- Ko'proq yuklash - Rahbariyat -->
-            <div v-if="hasMoreLeadership" class="text-center mt-8">
+            <!-- Carousel Controls - Rahbariyat -->
+            <div v-if="leadershipTotalPages > 1" class="flex items-center justify-center gap-6 mt-8">
               <button
-                @click="loadMoreLeadership"
-                class="group relative px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                @click="prevLeadershipPage"
+                :disabled="leadershipCurrentPage === 1"
+                :class="[
+                  'p-3 rounded-xl transition-all duration-300',
+                  leadershipCurrentPage === 1
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:scale-110 hover:shadow-lg'
+                ]"
               >
-                <span class="relative z-10 flex items-center gap-2">
-                  Ko'proq rahbarlar
-                  <svg class="w-4 h-4 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+              </button>
+
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-gray-800">
+                  {{ leadershipCurrentPage }} / {{ leadershipTotalPages }}
                 </span>
+                <div class="flex gap-2">
+                  <div
+                    v-for="page in leadershipTotalPages"
+                    :key="page"
+                    :class="[
+                      'h-2 rounded-full transition-all duration-300',
+                      page === leadershipCurrentPage
+                        ? 'w-8 bg-gradient-to-r from-indigo-600 to-purple-600'
+                        : 'w-2 bg-gray-300'
+                    ]"
+                  ></div>
+                </div>
+              </div>
+
+              <button
+                @click="nextLeadershipPage"
+                :disabled="leadershipCurrentPage === leadershipTotalPages"
+                :class="[
+                  'p-3 rounded-xl transition-all duration-300',
+                  leadershipCurrentPage === leadershipTotalPages
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:scale-110 hover:shadow-lg'
+                ]"
+              >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
               </button>
             </div>
           </div>
 
-          <!-- Fan O'qituvchilari Section (List) -->
-          <div v-if="displayedTeachers.length > 0">
+          <!-- Fan O'qituvchilari Section (List Carousel) -->
+          <div v-if="allTeachers.length > 0">
             <div class="text-center mb-12">
               <h2
                 class="text-3xl md:text-4xl font-black mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
@@ -179,68 +212,140 @@
               </h2>
               <p class="text-gray-600 text-lg">
                 {{ allTeachers.length }} ta o'qituvchi
-                <span v-if="teachersDisplayCount < allTeachers.length" class="text-purple-600 font-semibold">
-                  ({{ displayedTeachers.length }} ta ko'rsatilmoqda)
-                </span>
               </p>
             </div>
 
-            <!-- List View -->
-            <div class="max-w-4xl mx-auto space-y-4">
-              <div
-                v-for="(teacher, index) in displayedTeachers"
-                :key="teacher._id || index"
-                class="group bg-white/60 backdrop-blur-xl rounded-2xl p-5 border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+            <!-- Carousel Controls Top -->
+            <div v-if="teachersTotalPages > 1" class="flex items-center justify-center gap-6 mb-6">
+              <button
+                @click="prevTeachersPage"
+                :disabled="teachersCurrentPage === 1"
+                :class="[
+                  'p-3 rounded-xl transition-all duration-300',
+                  teachersCurrentPage === 1
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:scale-110 hover:shadow-lg'
+                ]"
               >
-                <div class="flex items-center gap-4">
-                  <!-- Icon/Avatar -->
-                  <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg">
-                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
-                  </div>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                </svg>
+              </button>
 
-                  <!-- Info -->
-                  <div class="flex-grow min-w-0">
-                    <h3 class="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition-colors truncate">
-                      {{ teacher.fullName }}
-                    </h3>
-                    <p class="text-sm text-purple-600 font-semibold">
-                      {{ teacher.subject }}
-                    </p>
-                  </div>
-
-                  <!-- Arrow -->
-                  <div class="flex-shrink-0">
-                    <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                  </div>
+              <div class="flex items-center gap-3">
+                <span class="text-lg font-bold text-gray-800">
+                  {{ teachersCurrentPage }} / {{ teachersTotalPages }}
+                </span>
+                <div class="flex gap-2">
+                  <div
+                    v-for="page in teachersTotalPages"
+                    :key="page"
+                    :class="[
+                      'h-2 rounded-full transition-all duration-300',
+                      page === teachersCurrentPage
+                        ? 'w-8 bg-gradient-to-r from-purple-600 to-pink-600'
+                        : 'w-2 bg-gray-300'
+                    ]"
+                  ></div>
                 </div>
               </div>
+
+              <button
+                @click="nextTeachersPage"
+                :disabled="teachersCurrentPage === teachersTotalPages"
+                :class="[
+                  'p-3 rounded-xl transition-all duration-300',
+                  teachersCurrentPage === teachersTotalPages
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:scale-110 hover:shadow-lg'
+                ]"
+              >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
             </div>
 
-            <!-- Ko'proq yuklash - O'qituvchilar -->
-            <div v-if="hasMoreTeachers" class="text-center mt-8">
+            <!-- List View with Animation -->
+            <div class="max-w-4xl mx-auto">
+              <transition name="slide-fade" mode="out-in">
+                <div :key="teachersCurrentPage" class="space-y-4">
+                  <div
+                    v-for="(teacher, index) in currentTeachersPage"
+                    :key="teacher._id || index"
+                    class="group bg-white/60 backdrop-blur-xl rounded-2xl p-5 border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                    :style="{ animationDelay: `${index * 50}ms` }"
+                  >
+                    <div class="flex items-center gap-4">
+                      <!-- Icon/Avatar -->
+                      <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                      </div>
+
+                      <!-- Info -->
+                      <div class="flex-grow min-w-0">
+                        <h3 class="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition-colors truncate">
+                          {{ teacher.fullName }}
+                        </h3>
+                        <p class="text-sm text-purple-600 font-semibold">
+                          {{ teacher.subject }}
+                        </p>
+                      </div>
+
+                      <!-- Arrow -->
+                      <div class="flex-shrink-0">
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </transition>
+            </div>
+
+            <!-- Carousel Controls Bottom -->
+            <div v-if="teachersTotalPages > 1" class="flex items-center justify-center gap-6 mt-6">
               <button
-                @click="loadMoreTeachers"
-                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                @click="prevTeachersPage"
+                :disabled="teachersCurrentPage === 1"
+                :class="[
+                  'p-3 rounded-xl transition-all duration-300',
+                  teachersCurrentPage === 1
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:scale-110 hover:shadow-lg'
+                ]"
               >
-                <span class="relative z-10 flex items-center gap-2">
-                  Ko'proq yuklash
-                  <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
-                </span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                </svg>
               </button>
-              <p class="mt-4 text-sm text-gray-500">
-                Yana {{ Math.min(ITEMS_PER_PAGE, allTeachers.length - teachersDisplayCount) }} ta o'qituvchi yuklanadi
-              </p>
+
+              <span class="text-sm text-gray-600 font-medium">
+                {{ (teachersCurrentPage - 1) * ITEMS_PER_PAGE + 1 }} - {{ Math.min(teachersCurrentPage * ITEMS_PER_PAGE, allTeachers.length) }} / {{ allTeachers.length }}
+              </span>
+
+              <button
+                @click="nextTeachersPage"
+                :disabled="teachersCurrentPage === teachersTotalPages"
+                :class="[
+                  'p-3 rounded-xl transition-all duration-300',
+                  teachersCurrentPage === teachersTotalPages
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:scale-110 hover:shadow-lg'
+                ]"
+              >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
             </div>
           </div>
 
           <!-- Empty State -->
-          <div v-if="displayedLeadership.length === 0 && displayedTeachers.length === 0" class="text-center py-16">
+          <div v-if="allLeadership.length === 0 && allTeachers.length === 0" class="text-center py-16">
             <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -269,19 +374,18 @@ export default {
     const teachers = ref([]);
     const loading = ref(true);
     const error = ref(null);
-    const leadershipDisplayCount = ref(20);
-    const teachersDisplayCount = ref(20);
-    const ITEMS_PER_PAGE = 20;
+    const leadershipCurrentPage = ref(1);
+    const teachersCurrentPage = ref(1);
+    const ITEMS_PER_PAGE = 10;
 
     // Rahbariyatni aniqlash
     const isLeadership = (teacher) => {
       const val = ((teacher.department || '') + ' ' + (teacher.subject || '')).toLowerCase();
-      return val.includes('direktor') || val.includes('rahbar')
-       || val.includes('boshqarma') || 
-             val.includes('hisobchi') || val.includes('kutubxona') || 
-             val.includes('boshlig\'i') || val.includes('kadrlar') || 
-             val.includes('psixolog') || val.includes('bosh') || 
-             val.includes('uslubchi');
+      return val.includes('direktor') || val.includes('rahbar') || 
+             val.includes('boshqarma') || val.includes('hisobchi') || 
+             val.includes('kutubxona') || val.includes('boshlig\'i') || 
+             val.includes('kadrlar') || val.includes('psixolog') || 
+             val.includes('bosh') || val.includes('uslubchi');
     };
 
     // Barcha rahbarlar
@@ -324,38 +428,56 @@ export default {
       return filtered;
     });
 
-    // Ko'rsatiladigan rahbarlar
-    const displayedLeadership = computed(() => {
-      return allLeadership.value.slice(0, leadershipDisplayCount.value);
+    // Pagination calculations
+    const leadershipTotalPages = computed(() => {
+      return Math.ceil(allLeadership.value.length / ITEMS_PER_PAGE);
     });
 
-    // Ko'rsatiladigan o'qituvchilar
-    const displayedTeachers = computed(() => {
-      return allTeachers.value.slice(0, teachersDisplayCount.value);
+    const teachersTotalPages = computed(() => {
+      return Math.ceil(allTeachers.value.length / ITEMS_PER_PAGE);
     });
 
-    // Ko'proq yuklash mumkinmi?
-    const hasMoreLeadership = computed(() => {
-      return leadershipDisplayCount.value < allLeadership.value.length;
+    const currentLeadershipPage = computed(() => {
+      const start = (leadershipCurrentPage.value - 1) * ITEMS_PER_PAGE;
+      const end = start + ITEMS_PER_PAGE;
+      return allLeadership.value.slice(start, end);
     });
 
-    const hasMoreTeachers = computed(() => {
-      return teachersDisplayCount.value < allTeachers.value.length;
+    const currentTeachersPage = computed(() => {
+      const start = (teachersCurrentPage.value - 1) * ITEMS_PER_PAGE;
+      const end = start + ITEMS_PER_PAGE;
+      return allTeachers.value.slice(start, end);
     });
 
-    // Ko'proq yuklash funksiyalari
-    const loadMoreLeadership = () => {
-      leadershipDisplayCount.value += ITEMS_PER_PAGE;
+    // Navigation functions
+    const nextLeadershipPage = () => {
+      if (leadershipCurrentPage.value < leadershipTotalPages.value) {
+        leadershipCurrentPage.value++;
+      }
     };
 
-    const loadMoreTeachers = () => {
-      teachersDisplayCount.value += ITEMS_PER_PAGE;
+    const prevLeadershipPage = () => {
+      if (leadershipCurrentPage.value > 1) {
+        leadershipCurrentPage.value--;
+      }
     };
 
-    // Display countni reset qilish
-    const resetDisplayCounts = () => {
-      leadershipDisplayCount.value = ITEMS_PER_PAGE;
-      teachersDisplayCount.value = ITEMS_PER_PAGE;
+    const nextTeachersPage = () => {
+      if (teachersCurrentPage.value < teachersTotalPages.value) {
+        teachersCurrentPage.value++;
+      }
+    };
+
+    const prevTeachersPage = () => {
+      if (teachersCurrentPage.value > 1) {
+        teachersCurrentPage.value--;
+      }
+    };
+
+    // Reset pages
+    const resetPages = () => {
+      leadershipCurrentPage.value = 1;
+      teachersCurrentPage.value = 1;
     };
 
     // API dan ma'lumot olish
@@ -384,9 +506,9 @@ export default {
     // Lifecycle
     onMounted(() => fetchTeachers());
 
-    // Qidiruv yoki filter o'zgarganda display countni reset qilish
+    // Qidiruv yoki filter o'zgarganda sahifalarni reset qilish
     watch([searchQuery, selectedDepartment], () => {
-      resetDisplayCounts();
+      resetPages();
     });
 
     return {
@@ -396,17 +518,19 @@ export default {
       teachers,
       loading,
       error,
-      displayedLeadership,
-      displayedTeachers,
       allLeadership,
       allTeachers,
-      hasMoreLeadership,
-      hasMoreTeachers,
-      loadMoreLeadership,
-      loadMoreTeachers,
+      currentLeadershipPage,
+      currentTeachersPage,
+      leadershipCurrentPage,
+      teachersCurrentPage,
+      leadershipTotalPages,
+      teachersTotalPages,
+      nextLeadershipPage,
+      prevLeadershipPage,
+      nextTeachersPage,
+      prevTeachersPage,
       fetchTeachers,
-      leadershipDisplayCount,
-      teachersDisplayCount,
       ITEMS_PER_PAGE
     };
   }
@@ -419,5 +543,24 @@ export default {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Slide fade animation */
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.2s ease-in;
+}
+
+.slide-fade-enter-from {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.slide-fade-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
 }
 </style>
