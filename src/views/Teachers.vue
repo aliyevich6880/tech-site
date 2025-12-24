@@ -276,8 +276,8 @@ export default {
     // Rahbariyatni aniqlash
     const isLeadership = (teacher) => {
       const val = ((teacher.department || '') + ' ' + (teacher.subject || '')).toLowerCase();
-      return val.includes('direktor') || val.includes('rahbar') || 
-             val.includes('mudir') || val.includes('boshqarma') || 
+      return val.includes('direktor') || val.includes('rahbar')
+       || val.includes('boshqarma') || 
              val.includes('hisobchi') || val.includes('kutubxona') || 
              val.includes('boshlig\'i') || val.includes('kadrlar') || 
              val.includes('psixolog') || val.includes('bosh') || 
