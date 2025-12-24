@@ -331,7 +331,7 @@
 <script>
 import { ref, computed, onMounted } from 'vue';
 import api from '@/services/api'; // ✅ Toza api
-import aboutimg from "@/assets/library.jpg";
+import aboutimg from "@/assets/yonalishlar1.jpg";
 import Hero from "@/components/Hero.vue";
 import TeachersPreview from "@/components/TeachersPreview.vue";
 import Map from "@/components/Map.vue";

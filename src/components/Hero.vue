@@ -51,7 +51,7 @@
         <!-- Stats -->
         <div class="grid grid-cols-3 gap-6 mt-10 pt-6 border-t border-white/20">
           <div>
-            <div class="text-2xl md:text-3xl font-bold text-white">500+</div>
+            <div class="text-2xl md:text-3xl font-bold text-white">1000+</div>
             <div class="text-sm text-white/70">Talabalar</div>
           </div>
           <div>
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import WinterImage from "@/assets/herov.jpg";
+import WinterImage from "@/assets/glavne2.jpg";
 export default {
   name: "Hero",
   data() {

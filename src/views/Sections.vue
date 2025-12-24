@@ -1,22 +1,10 @@
 <template>
-  <div class="sections-page">
+  <div class="sections-page bg-gray-50 min-h-screen ">
     <!-- Hero Section -->
     <section
-      class="relative w-full h-[550px] md:h-[650px] flex items-center justify-center overflow-hidden"
+      class="relative w-full h-[550px] md:h-[650px] flex items-center justify-center overflow-hidden bg-img-yonalishlar bg-cover bg-center "
     >
-      <!-- Background Image -->
-      <div
-        class="absolute inset-0 bg-cover bg-center"
-        style="
-          background-image: url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600');
-        "
-      ></div>
-
-      <!-- Bottom Overlay -->
-      <div
-        class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"
-      ></div>
-
+    
       <!-- Hero Content -->
       <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
         <div
@@ -55,13 +43,13 @@
           </div>
           <div class="text-center">
             <div class="text-4xl md:text-5xl font-black text-indigo-600 mb-2">
-              25+
+              36+
             </div>
             <div class="text-gray-600 font-medium">Guruhlar</div>
           </div>
           <div class="text-center">
             <div class="text-4xl md:text-5xl font-black text-indigo-600 mb-2">
-              500+
+              1000+
             </div>
             <div class="text-gray-600 font-medium">Talabalar</div>
           </div>
@@ -266,8 +254,10 @@
 </template>
 
 <script>
+  import yonalishlar from "@/assets/yonalishlar.png";
 export default {
   name: "Sections",
+  components: { yonalishlar },
   data() {
     return {
       activeCard: null,
@@ -323,8 +313,17 @@ export default {
           name: "Traktorchi Mashinist",
           icon: "🚜",
           groups: [
-            { name: "113-118 Guruh", courses: ["1-kurs (6 ta guruh)"] },
-            { name: "212-214 Guruh", courses: ["2-kurs (3 ta guruh)"] },
+            { name: "113-Guruh", courses: ["1-kurs"] },
+            { name: "114-Guruh", courses: ["1-kurs"] },
+            { name: "115-Guruh", courses: ["1-kurs"] },
+            { name: "116-Guruh", courses: ["1-kurs"] },
+            { name: "117-Guruh", courses: ["1-kurs"] },
+            { name: "118-Guruh", courses: ["1-kurs"] },
+            { name: "210-Guruh", courses: ["2-kurs"]},
+            { name: "211-Guruh", courses: ["2-kurs"]},
+            { name: "212-Guruh", courses: ["2-kurs"]},
+            { name: "213-Guruh", courses: ["2-kurs"]},
+            { name: "214-Guruh", courses: ["2-kurs"] },
           ],
         },
       ],
@@ -339,6 +338,10 @@ export default {
 </script>
 
 <style scoped>
+  .bg-img-yonalishlar{
+    background-image: url('@/assets/yonalishlar1.jpg');
+    
+  }
 .sections-page {
   animation: fadeIn 0.5s ease-out;
 }
