@@ -143,7 +143,7 @@ export default {
     return {
       embedUrl:
         "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1261.1782185574734!2d66.85549033856525!3d39.91230765021074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e1!3m2!1sen!2s!4v1764956036819!5m2!1sen!2s",
-      phone: "+998 90 123 45 67",
+      phone: "+998 97-923-90-01",
       email: "pt2texnikum@gmail.com",
       address: "Samarqand shahri, O'zbekiston",
       directionsUrl:

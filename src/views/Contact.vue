@@ -154,10 +154,13 @@
               <!-- Submit Button -->
               <button
                 type="submit"
-                class="w-full py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+                :disabled="isLoading"
+                class="w-full py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span>Yuborish</span>
+                <span v-if="!isLoading">Yuborish</span>
+                <span v-else>Yuborilmoqda...</span>
                 <svg
+                  v-if="!isLoading"
                   class="w-5 h-5"
                   fill="none"
                   stroke="currentColor"
@@ -172,6 +175,11 @@
                 </svg>
               </button>
             </form>
+
+            <!-- Success/Error Messages -->
+            <div v-if="statusMessage" class="mt-4 p-4 rounded-xl" :class="statusType === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
+              {{ statusMessage }}
+            </div>
           </div>
 
           <!-- Contact Info -->
@@ -213,8 +221,7 @@
                   <div>
                     <h4 class="font-bold text-gray-900 mb-1">Manzil</h4>
                     <p class="text-gray-600">
-                      Payariq tumani,Chelak shaharchasi oq qush restauran
-                      kochasi
+                      Payariq tumani Qumchuq MFY, Furqat ko'cha 4-uy
                     </p>
                   </div>
                 </div>
@@ -241,9 +248,9 @@
                   <div>
                     <h4 class="font-bold text-gray-900 mb-1">Telefon</h4>
                     <a
-                      href="tel:+998901234567"
+                      href="tel:+998979239001"
                       class="text-indigo-600 font-semibold hover:underline"
-                      >+998 90 123 45 67</a
+                      >+998 97-923-90-01</a
                     >
                     <p class="text-gray-500 text-sm mt-1">
                       Dushanba - Shanba: 9:00 - 16:00
@@ -388,39 +395,64 @@
 </template>
 
 <script>
+  import emailjs from "@emailjs/browser";
 import Map from "@/components/Map.vue";
+
 
 export default {
   name: "Contact",
-  components: {
-    Map,
-  },
+  components: { Map , emailjs  },
   data() {
     return {
-      form: {
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
-      },
+      form: { name: "", email: "", phone: "", subject: "", message: "" },
+      isLoading: false,
+      statusMessage: "",
+      statusType: "",
     };
   },
   methods: {
-    submitForm() {
-      // Form submission logic
-      console.log("Form submitted:", this.form);
-      alert("Xabaringiz yuborildi! Tez orada siz bilan bog'lanamiz.");
-      // Reset form
-      this.form = {
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
-      };
-    },
+  async submitForm() {
+    this.isLoading = true;
+    this.statusMessage = "";
+
+    try {
+      const result = await emailjs.send(
+        "service_yxnmk5a","template_xrgfjjh",    // EmailJS Template ID
+        {
+          from_name: this.form.name,
+          from_email: this.form.email,
+          subject: this.form.subject,
+          message: this.form.message,
+          to_email: "pt2texnikum@gmail.com",
+        },
+        "AtuCOkDZFW-i-Yik2"       // EmailJS Public Key
+      );
+
+      console.log("EmailJS response:", result);
+
+      this.statusMessage =
+        "✅ Xabaringiz muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.";
+      this.statusType = "success";
+
+      // Formani tozalash
+      this.form = { name: "", email: "", phone: "", subject: "", message: "" };
+
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      this.statusMessage =
+        "❌ Xatolik yuz berdi. Iltimos qaytadan urinib ko'ring yoki telefon orqali bog'laning.";
+      this.statusType = "error";
+    } finally {
+      this.isLoading = false;
+
+      // 5 soniyadan keyin xabarni o'chirish
+      setTimeout(() => {
+        this.statusMessage = "";
+      }, 5000);
+    }
   },
+},
+
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   },
