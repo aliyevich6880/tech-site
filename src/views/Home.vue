@@ -2,6 +2,37 @@
   <div class="home-page">
     <!-- Hero Section -->
     <Hero />
+<!-- SEO TEXT (Google uchun, foydalanuvchi ko‘rmaydi) -->
+<section class="hidden">
+  <h1>Payariq 2-son texnikum — Samarqanddagi zamonaviy kasb-hunar maktabi</h1>
+
+  <p>
+    Payariq 2-son texnikum Samarqand viloyati Payariq tumanida joylashgan
+    yetakchi kasb-hunar maktabidir. Texnikum yoshlarni zamonaviy kasblarga
+    o‘qitish, professional ta’lim berish va mehnat bozorida talab yuqori
+    bo‘lgan mutaxassislarni tayyorlash bilan shug‘ullanadi.
+  </p>
+
+  <h2>Payariq kasb-hunar maktabida professional ta’lim</h2>
+  <p>
+    Texnikumda avtomobillarni ta’mirlash, tikuvchilik va
+    traktorchi-mashinist yo‘nalishlari bo‘yicha ta’lim beriladi.
+    O‘quv jarayonlari zamonaviy laboratoriyalar va tajribali
+    o‘qituvchilar tomonidan olib boriladi.
+  </p>
+
+  <h2>Payariq texnikum yo‘nalishlari</h2>
+  <ul>
+    <li>Avtomobillarni ta’mirlash</li>
+    <li>Tikuvchilik</li>
+    <li>Traktorchi-mashinist</li>
+  </ul>
+
+  <p>
+    Payariq 2-son texnikumda o‘qish — bu ishonchli kelajak va
+    sifatli ta’lim demakdir.
+  </p>
+</section>
 
     <!-- About Section -->
     <section class="py-16 md:py-24 bg-white relative overflow-hidden">
@@ -396,10 +427,27 @@ export default {
       }
     };
 
-    onMounted(() => {
-      fetchLatestNews();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+onMounted(() => {
+  fetchLatestNews();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // ✅ SEO uchun
+  document.title =
+    "Payariq 2-son texnikum — Samarqanddagi zamonaviy kasb-hunar maktabi";
+
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (!metaDesc) {
+    metaDesc = document.createElement("meta");
+    metaDesc.setAttribute("name", "description");
+    document.head.appendChild(metaDesc);
+  }
+
+  metaDesc.setAttribute(
+    "content",
+    "Payariq 2-son texnikum — Samarqand viloyati Payariq tumanidagi yetakchi kasb-hunar maktabi. Avtomobillarni ta’mirlash, tikuvchilik va traktorchi yo‘nalishlari bo‘yicha professional ta’lim."
+  );
+});
+
 
     return {
       aboutimg,
