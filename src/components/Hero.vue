@@ -14,13 +14,13 @@
       >
         <!-- Title -->
         <h1
-          class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent leading-[1.2] pb-2"
+          class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.2] pb-2"
         >
-          Payariq Tumani
+          Payariq tuman
           <span
-            class="block font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent leading-[1.2] pb-2"
+            class="block font-black text-white leading-[1.2] pb-2"
           >
-            2-son Texnikumi
+            2-son texnikumi
           </span>
         </h1>
 

@@ -150,7 +150,7 @@
                 ></path>
               </svg>
               <span
-                >Qumchuq MFY, Furqat ko'cha 4-bino</span
+                >Qumchuq MFY, Furqat ko'cha 4-uy</span
               >
             </li>
             <li

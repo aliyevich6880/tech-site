@@ -370,7 +370,7 @@ export default {
     // States
     const searchQuery = ref('');
     const selectedDepartment = ref('Barchasi');
-    const departments = ref(['Barchasi', 'Rahbariyat', 'Fanlar']);
+    const departments = ref(['Barchasi', 'Rahbariyat', 'Fan 0\'qituvchilari']);
     const teachers = ref([]);
     const loading = ref(true);
     const error = ref(null);
