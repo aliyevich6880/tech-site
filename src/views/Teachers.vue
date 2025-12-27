@@ -5,7 +5,7 @@
       class="relative w-full h-96 md:h-[500px] flex items-center justify-center overflow-hidden"
     >
       <img
-        src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600"
+        src="@/assets/about.jpg"
         alt="Teachers Hero"
         class="absolute inset-0 w-full h-full object-cover"
       />
@@ -216,7 +216,49 @@
             </div>
 
             <!-- Carousel Controls Top -->
-            <div v-if="teachersTotalPages > 1" class="flex items-center justify-center gap-6 mb-6">
+          
+
+            <!-- List View with Animation -->
+            <div class="max-w-4xl mx-auto">
+              <transition name="slide-fade" mode="out-in">
+                <div :key="teachersCurrentPage" class="space-y-4">
+                  <div
+                    v-for="(teacher, index) in currentTeachersPage"
+                    :key="teacher._id || index"
+                    class="group bg-white/60 backdrop-blur-xl rounded-2xl p-5 border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                    :style="{ animationDelay: `${index * 50}ms` }"
+                  >
+                    <div class="flex items-center gap-4">
+                      <!-- Icon/Avatar -->
+                      <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                      </div>
+
+                      <!-- Info -->
+                      <div class="flex-grow min-w-0">
+                        <h3 class="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition-colors truncate">
+                          {{ teacher.fullName }}
+                        </h3>
+                        <p class="text-sm text-purple-600 font-semibold">
+                          {{ teacher.subject }}
+                        </p>
+                      </div>
+
+                      <!-- Arrow -->
+                      <div class="flex-shrink-0">
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </transition>
+            </div>
+            <!-- Carousel Controls Bottom -->
+            <div v-if="teachersTotalPages > 1" class="flex items-center justify-center gap-6 mb-6 mt-8">
               <button
                 @click="prevTeachersPage"
                 :disabled="teachersCurrentPage === 1"
@@ -265,83 +307,6 @@
                 </svg>
               </button>
             </div>
-
-            <!-- List View with Animation -->
-            <div class="max-w-4xl mx-auto">
-              <transition name="slide-fade" mode="out-in">
-                <div :key="teachersCurrentPage" class="space-y-4">
-                  <div
-                    v-for="(teacher, index) in currentTeachersPage"
-                    :key="teacher._id || index"
-                    class="group bg-white/60 backdrop-blur-xl rounded-2xl p-5 border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
-                    :style="{ animationDelay: `${index * 50}ms` }"
-                  >
-                    <div class="flex items-center gap-4">
-                      <!-- Icon/Avatar -->
-                      <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg">
-                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                      </div>
-
-                      <!-- Info -->
-                      <div class="flex-grow min-w-0">
-                        <h3 class="text-lg font-bold text-gray-900 group-hover:text-purple-600 transition-colors truncate">
-                          {{ teacher.fullName }}
-                        </h3>
-                        <p class="text-sm text-purple-600 font-semibold">
-                          {{ teacher.subject }}
-                        </p>
-                      </div>
-
-                      <!-- Arrow -->
-                      <div class="flex-shrink-0">
-                        <svg class="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </transition>
-            </div>
-
-            <!-- Carousel Controls Bottom -->
-            <div v-if="teachersTotalPages > 1" class="flex items-center justify-center gap-6 mt-6">
-              <button
-                @click="prevTeachersPage"
-                :disabled="teachersCurrentPage === 1"
-                :class="[
-                  'p-3 rounded-xl transition-all duration-300',
-                  teachersCurrentPage === 1
-                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:scale-110 hover:shadow-lg'
-                ]"
-              >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
-                </svg>
-              </button>
-
-              <span class="text-sm text-gray-600 font-medium">
-                {{ (teachersCurrentPage - 1) * ITEMS_PER_PAGE + 1 }} - {{ Math.min(teachersCurrentPage * ITEMS_PER_PAGE, allTeachers.length) }} / {{ allTeachers.length }}
-              </span>
-
-              <button
-                @click="nextTeachersPage"
-                :disabled="teachersCurrentPage === teachersTotalPages"
-                :class="[
-                  'p-3 rounded-xl transition-all duration-300',
-                  teachersCurrentPage === teachersTotalPages
-                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:scale-110 hover:shadow-lg'
-                ]"
-              >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </button>
-            </div>
           </div>
 
           <!-- Empty State -->
@@ -370,7 +335,7 @@ export default {
     // States
     const searchQuery = ref('');
     const selectedDepartment = ref('Barchasi');
-    const departments = ref(['Barchasi', 'Rahbariyat', 'Fan 0\'qituvchilari']);
+    const departments = ref(['Barchasi', 'Rahbariyat', 'Fan o\'qituvchilari']);
     const teachers = ref([]);
     const loading = ref(true);
     const error = ref(null);
@@ -401,7 +366,7 @@ export default {
         );
       }
 
-      if (selectedDepartment.value === 'Fanlar') {
+      if (selectedDepartment.value === 'Fan o\'qituvchilari') {
         return [];
       }
 

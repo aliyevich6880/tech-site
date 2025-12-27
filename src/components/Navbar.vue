@@ -5,18 +5,14 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-20 items-center">
         <!-- Logo -->
-        <div class="flex items-center space-x-3 group">
-          <div
-            class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300"
-          >
-            <span class="text-white font-bold text-xl">TC</span>
-          </div>
-          <span
-            class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent hidden sm:block"
-          >
-            Tech College
-          </span>
-        </div>
+        <router-link to="/" class="rounded-full">
+          <img
+            src="@/assets/Gemini.png"
+            alt="Payariq tumani 2-son texnikumi"
+            class="logo-img"
+          />
+        </router-link>
+
         <!-- Desktop Menu -->
         <div class="hidden md:flex space-x-1">
           <router-link
@@ -117,6 +113,12 @@ export default {
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
+.logo-img {
+  height: 50px; /* Logotip o'lchamini loyihaga moslang */
+  width: auto;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 /* Smooth backdrop blur for better performance */

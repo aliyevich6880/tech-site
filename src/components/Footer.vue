@@ -27,18 +27,13 @@
       <div class="grid md:grid-cols-3 gap-8 lg:gap-12">
         <!-- Logo & About -->
         <div class="space-y-4">
-          <div class="flex items-center space-x-3 mb-4">
-            <div
-              class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg"
-            >
-              <span class="text-white font-bold text-xl">TC</span>
-            </div>
-            <h2
-              class="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
-            >
-              Tech College
-            </h2>
-          </div>
+        <router-link to="/" class="rounded-full">
+          <img
+            src="@/assets/Gemini.png"
+            alt="Payariq tumani 2-son texnikumi"
+            class="logo-img"
+          />
+        </router-link>
           <p class="text-gray-400 text-sm leading-relaxed">
             Zamonaviy ta'lim va kuchli mutaxassislar tayyorlashga qaratilgan
             texnikumimiz o'quvchilar uchun eng yaxshi sharoitlarni yaratadi.
@@ -205,7 +200,7 @@
           class="flex flex-col md:flex-row justify-between items-center gap-4"
         >
           <p class="text-gray-400 text-sm text-center md:text-left">
-            © {{ currentYear }} Tech College. Barcha huquqlar himoyalangan.
+            © {{ currentYear }} Payariq tuman 2-son texnikumi. Barcha huquqlar himoyalangan.
           </p>
           <div class="flex gap-6 text-sm">
             <a href="#" class="text-gray-400 hover:text-white transition-colors"
@@ -251,6 +246,12 @@ export default {
 /* Smooth hover transitions */
 a {
   position: relative;
+}
+.logo-img {
+  height: 50px; /* Logotip o'lchamini loyihaga moslang */
+  width: auto;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 a::after {

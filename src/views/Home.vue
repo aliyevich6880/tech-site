@@ -433,7 +433,7 @@ onMounted(() => {
 
   // ✅ SEO uchun
   document.title =
-    "Payariq 2-son texnikum — Samarqanddagi zamonaviy kasb-hunar maktabi";
+    "Payariq 2-son texnikum";
 
   let metaDesc = document.querySelector('meta[name="description"]');
   if (!metaDesc) {

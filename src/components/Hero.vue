@@ -69,7 +69,10 @@
 </template>
 
 <script>
-import WinterImage from "@/assets/glavne2.jpg";
+import WinterImage from "@/assets/sneg.jpg";
+import SpringImage from "@/assets/glavne2.jpg";
+import SummerImage from "@/assets/glavne2.jpg";
+import AutumnImage from "@/assets/glavne2.jpg";
 export default {
   name: "Hero",
   data() {
@@ -77,11 +80,11 @@ export default {
       currentSeason: "spring",
       images: {
         spring:
-          "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600",
+          SpringImage,
         summer:
-          "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=1600",
+          SummerImage,
         autumn:
-          "https://images.unsplash.com/photo-1445264918150-66a2371142a2?w=1600",
+          AutumnImage,
         winter: WinterImage,
       },
     };

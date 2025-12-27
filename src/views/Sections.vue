@@ -254,7 +254,7 @@
 </template>
 
 <script>
-  import yonalishlar from "@/assets/yonalishlar.png";
+  import yonalishlar from "@/assets/yonalishlar1.jpg";
 export default {
   name: "Sections",
   components: { yonalishlar },
